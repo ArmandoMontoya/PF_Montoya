@@ -1,0 +1,102 @@
+<h1 mat-dialog-title>{{tituloDialog}}</h1>
+<div mat-dialog-content>
+  <form [formGroup]="formulario">
+    <div class="container">
+      <div class="row">
+
+        <!--Número de control-->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="full-width-field">
+            <mat-label>Número de control</mat-label>
+            <input formControlName="numeroControl" matInput>
+          </mat-form-field>
+        </div>
+
+        <!--Nombre-->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="full-width-field">
+            <mat-label>Nombre</mat-label>
+            <input formControlName="nombre" matInput>
+          </mat-form-field>
+        </div>
+
+        <!--Apellido Paterno-->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="full-width-field">
+            <mat-label>Apellido Paterno</mat-label>
+            <input formControlName="apellidoPaterno" matInput>
+          </mat-form-field>
+        </div>
+
+
+        <!--Apellido Materno-->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="full-width-field">
+            <mat-label>Apellido Materno</mat-label>
+            <input formControlName="apellidoMaterno" matInput>
+          </mat-form-field>
+        </div>
+
+        <!--Fecha de Nacimiento-->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="full-width-field">
+            <mat-label>Fecha de Nacimiento</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="fechaNacimiento">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <!--CURP-->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="full-width-field">
+            <mat-label>CURP</mat-label>
+            <input formControlName="curp" matInput>
+          </mat-form-field>
+        </div>
+
+        <!--Sexo-->
+        <div class="col-md-6 mt-2">
+          <mat-label class="label-radioButton">Sexo</mat-label>
+          <mat-radio-group aria-label="Sexo" formControlName="sexo" class="full-width-field">
+            <mat-radio-button value="M">Masculino</mat-radio-button>
+            <mat-radio-button value="F">Femenino</mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+        <!--Dirección-->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="full-width-field">
+            <mat-label>Dirección</mat-label>
+            <input formControlName="direccion" matInput>
+          </mat-form-field>
+        </div>
+
+        <!--Contacto-->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="full-width-field">
+            <mat-label>Contacto</mat-label>
+            <input formControlName="contacto" matInput>
+          </mat-form-field>
+        </div>
+
+        <!--Número de contacto-->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="full-width-field">
+            <mat-label>Número de contacto</mat-label>
+            <input formControlName="numeroContacto" matInput>
+          </mat-form-field>
+        </div>
+
+      </div>
+    </div>
+
+
+
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="cerrar()">Cerrar</button>
+  <button mat-button mat-raised-button color="primary" (click)="actualizar()">{{textoBoton}}</button>
+</div>
