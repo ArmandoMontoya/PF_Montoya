@@ -11,7 +11,6 @@ export class DialogService {
   constructor(private dialog: MatDialog) {}
 
   confirmDialog(data: ConfirmDialogData): Observable<boolean> {
-    debugger;
     return this.dialog
       .open(ConfirmDialogComponent, {
         data,

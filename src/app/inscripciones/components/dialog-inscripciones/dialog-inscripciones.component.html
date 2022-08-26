@@ -1,0 +1,54 @@
+<h1 mat-dialog-title>{{tituloDialog}}</h1>
+<div mat-dialog-content>
+  <form [formGroup]="formulario">
+    <div class="container">
+      <div class="row">
+
+        <!--Número de control-->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="full-width-field">
+            <mat-label>idInscripcion</mat-label>
+            <input formControlName="idInscripcion" matInput>
+          </mat-form-field>
+        </div>
+
+        <!--Nombre-->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="full-width-field">
+            <mat-label>idAlumno</mat-label>
+            <input formControlName="idAlumno" matInput>
+          </mat-form-field>
+        </div>
+
+        <!--Apellido Paterno-->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="full-width-field">
+            <mat-label>idCurso</mat-label>
+            <input formControlName="idCurso" matInput>
+          </mat-form-field>
+        </div>
+
+
+
+        <!--Fecha de Nacimiento-->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="full-width-field">
+            <mat-label>fecha_inscripcion</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="fecha_inscripcion">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+      </div>
+    </div>
+
+
+
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="cerrar()">Cerrar</button>
+  <button mat-button mat-raised-button color="primary" (click)="actualizar()">{{textoBoton}}</button>
+</div>

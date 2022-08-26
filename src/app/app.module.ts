@@ -16,24 +16,21 @@ import { EditarComponent } from './alumnos/components/editar/editar.component';
 import { CabecerasDirective } from './alumnos/directives/cabeceras.directive';
 import { NombreCompletoPipe } from './alumnos/pipes/nombre-completo.pipe';
 import { ConfirmDialogComponent } from './shared/components/confirm-dialog/confirm-dialog.component';
+import { AlumnosModule } from './alumnos/alumnos.module';
+import { SharedModule } from './shared/shared.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
     AppComponent,
     LayoutComponent,
-    ListarComponent,
-    EditarComponent,
-    CabecerasDirective,
-    NombreCompletoPipe,
-    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
-    LayoutModule,
-    MaterialModule,
-    ReactiveFormsModule,
+    AppRoutingModule,
+    RouterModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]

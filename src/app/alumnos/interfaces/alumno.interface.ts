@@ -1,4 +1,5 @@
 export interface Alumno {
+  idAlumno: number;
   numeroControl: string;
   nombre: string;
   apellidoPaterno: string;
@@ -10,3 +11,9 @@ export interface Alumno {
   contacto: string;
   numeroContacto: string;
 }
+
+export interface SelectAlumno {
+  idAlumno: number;
+  nombre: string;
+}
+

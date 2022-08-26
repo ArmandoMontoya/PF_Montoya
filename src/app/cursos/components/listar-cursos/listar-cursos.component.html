@@ -1,0 +1,71 @@
+<div class="container">
+  <div class="row">
+    <h1 cabeceraDirective>{{title}}</h1>
+
+      <div class="form-row">
+        <div class="form-group col-6">
+          <mat-form-field>
+            <mat-label>Buscar</mat-label>
+            <input type="text" (keyup)="filtrar($event)" matInput>
+          </mat-form-field>
+        </div>
+        <div class="form-group col-6">
+          <button mat-raised-button (click)="agregar()" color="primary">
+            <mat-icon>add</mat-icon>
+            Nuevo
+          </button>
+        </div>
+      </div>
+
+
+
+  </div>
+</div>
+
+<table mat-table mat-table class="full-width-table" [dataSource]="dataSource">
+  <!-- Columna Número de control -->
+  <ng-container matColumnDef="idCurso">
+    <th mat-header-cell *matHeaderCellDef>N° Curso</th>
+    <td mat-cell *matCellDef="let element">{{ element.idCurso }}</td>
+  </ng-container>
+
+  <!-- Columna Nombre -->
+  <ng-container matColumnDef="descripcion">
+    <th mat-header-cell *matHeaderCellDef>descripcion</th>
+    <td mat-cell *matCellDef="let element">{{ element.descripcion}}</td>
+  </ng-container>
+
+  <!-- Columna Fecha de Nacimiento -->
+  <ng-container matColumnDef="fecha_Creacion">
+    <th mat-header-cell *matHeaderCellDef>fecha_Creacion</th>
+    <td mat-cell *matCellDef="let element">{{ element.fecha_Creacion | date:'shortDate' }}</td>
+  </ng-container>
+
+  <!-- Columna CURP -->
+  <ng-container matColumnDef="duracion">
+    <th mat-header-cell *matHeaderCellDef>duracion</th>
+    <td mat-cell *matCellDef="let element">{{ element.duracion }}</td>
+  </ng-container>
+
+  <!-- Columna Sexo -->
+  <ng-container matColumnDef="estatus">
+    <th mat-header-cell *matHeaderCellDef>estatus</th>
+    <td mat-cell *matCellDef="let element">{{ element.estatus }}</td>
+  </ng-container>
+
+  <!-- Columna Acciones -->
+  <ng-container matColumnDef="acciones">
+    <th mat-header-cell *matHeaderCellDef>Acciones</th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button color="primary" matTooltip="Editar" matTooltipPosition="above" (click)="editar(element)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" matTooltip="Eliminar" matTooltipPosition="above" (click)="eliminar(element)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+  <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+</table>
