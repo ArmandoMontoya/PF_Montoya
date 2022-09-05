@@ -6,6 +6,7 @@ import { Alumno } from '../../interfaces/alumno.interface';
 import { EditarComponent } from '../editar/editar.component';
 import { AlumnosService } from '../../services/alumnos.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificacionService } from '../../../shared/services/notificacion.service';
 
 @Component({
   selector: 'app-listar',
@@ -26,7 +27,7 @@ export class ListarComponent implements OnInit {
     private dialog: MatDialog,
     private dialogService: DialogService,
     private alumnoService: AlumnosService,
-    private snackBar: MatSnackBar
+    private notificacion: NotificacionService
   ) {
     this.listarAlumnos();
   }
@@ -43,7 +44,7 @@ export class ListarComponent implements OnInit {
     dialogRef.afterClosed().subscribe(resultado => {
       if(resultado){
         this.dataSource.data.push(resultado);
-        this.notificacion('Alumno creado con éxito');
+        this.notificacion.mensaje('Alumno creado con éxito');
         this.tabla.renderRows();
       }
     });
@@ -94,13 +95,5 @@ export class ListarComponent implements OnInit {
   filtrar(event: Event){
     const valorObtenido = (event.target as HTMLInputElement).value;
     this.dataSource.filter = valorObtenido.trim().toLocaleLowerCase();
-  }
-
-  notificacion(mensaje:string){
-    this.snackBar.open(mensaje, 'x',{
-      duration: 3000,
-      horizontalPosition: 'center',
-      verticalPosition: 'top',
-    });
   }
 }

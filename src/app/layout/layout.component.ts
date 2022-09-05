@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
+import { AuthService } from '../auth/services/auth.service';
+import { Router } from '@angular/router';
+import { NotificacionService } from '../shared/services/notificacion.service';
 
 @Component({
   selector: 'app-layout',
@@ -16,6 +19,14 @@ export class LayoutComponent {
       shareReplay()
     );
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private auth: AuthService,
+    private router: Router,
+    ) {}
+
+  cerrarSesion(){
+    this.auth.cerrarSesion();
+  }
 
 }

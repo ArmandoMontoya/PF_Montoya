@@ -21,7 +21,6 @@ export class AuthGuard implements CanActivate {
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this.auth.obtenerSesion().pipe(
       map((sesion: Sesion) => {
-        debugger;
         if(sesion.sesionActiva){
           return true;
         }else{

@@ -5,6 +5,8 @@ import { Usuario } from '../interfaces/usuario';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment.prod';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { NotificacionService } from '../../shared/services/notificacion.service';
 
 const _apiUrl = environment.apiUrl;
 
@@ -14,7 +16,11 @@ const _apiUrl = environment.apiUrl;
 export class AuthService {
   sesionSubject!: BehaviorSubject<Sesion>
 
-  constructor(private http: HttpClient, private snackBar: MatSnackBar) {
+  constructor(
+    private http: HttpClient,
+    private notificacion: NotificacionService,
+    private router: Router
+    ) {
     const sesion: Sesion = {
       sesionActiva: false
     };
@@ -25,7 +31,6 @@ export class AuthService {
   iniciarSesion(usuario: Usuario) {
     this.http.get<Usuario>(`${_apiUrl}/usuarios?search=${usuario.usuario}&filter=${usuario.contrasena}`)
       .subscribe((usuarioLogged: any) => {
-        debugger;
         if (usuarioLogged.length > 0) {
           const sesion: Sesion = {
             sesionActiva: true,
@@ -37,8 +42,11 @@ export class AuthService {
           }
 
           this.sesionSubject.next(sesion);
-          this.notificacion('Inicio de sesión exitoso');
+          this.router.navigate(['/alumnos']);
+          this.notificacion.mensaje('Inicio de sesión exitoso');
 
+        }else{
+          this.notificacion.mensaje('Usuario no encontrado, verifica tus datos');
         }
 
       })
@@ -50,17 +58,11 @@ export class AuthService {
       sesionActiva: false
     };
     this.sesionSubject.next(sesion);
+    this.router.navigate(['/auth']);
+    this.notificacion.mensaje('Sesión cerrada exitosamente')
   }
 
   obtenerSesion() {
     return this.sesionSubject.asObservable();
-  }
-
-  notificacion(mensaje:string){
-    this.snackBar.open(mensaje, 'x',{
-      duration: 3000,
-      horizontalPosition: 'center',
-      verticalPosition: 'top',
-    });
   }
 }
