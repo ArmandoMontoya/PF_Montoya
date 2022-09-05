@@ -15,7 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class ListarComponent implements OnInit {
   title:string = 'Alumnos';
 
-  columnas: string[] = ['numeroControl', 'nombre', 'fechaNacimiento', 'curp', 'sexo', 'acciones'];
+  columnas: string[] = [ 'foto', 'numeroControl', 'nombre', 'curp', 'sexo', 'acciones'];
 
   ALUMNOS_DATA: Alumno[] = [];
 
@@ -51,42 +51,43 @@ export class ListarComponent implements OnInit {
 
   listarAlumnos(){
     this.alumnoService.getAlumnos().subscribe((alumnos) => {
+      console.log(alumnos)
       this.dataSource = new MatTableDataSource(alumnos);
    });
   }
 
   editar(elemento: Alumno){
-    const dialogRef = this.dialog.open(EditarComponent, {
-      width: '700px',
-      data: elemento
-    });
+  //   const dialogRef = this.dialog.open(EditarComponent, {
+  //     width: '700px',
+  //     data: elemento
+  //   });
 
 
-    dialogRef.afterClosed().subscribe(resultado => {
-      if(resultado){
-          this.alumnoService.updateAlumno(resultado).subscribe((alumnos) => {
-            this.dataSource = new MatTableDataSource(alumnos);
-              this.notificacion('Alumno modificado con éxito');
-        });
-      }
-    });
+  //   dialogRef.afterClosed().subscribe(resultado => {
+  //     if(resultado){
+  //         this.alumnoService.updateAlumno(resultado).subscribe((alumnos) => {
+  //           this.dataSource = new MatTableDataSource(alumnos);
+  //             this.notificacion('Alumno modificado con éxito');
+  //       });
+  //     }
+  //   });
   }
 
   eliminar(elemento: Alumno){
-    this.dialogService.confirmDialog({
-      title: '¿Estás seguro de eliminar este registro?',
-      message: '¡Esto no se puede revertir!',
-      confirmText: 'Sí, eliminar',
-      cancelText: 'Cancelar',
-    }).subscribe(data =>
-      {
-      if(data === true){
-        this.alumnoService.deleteAlumno(elemento).subscribe((alumnos) =>{
-          this.notificacion('Alumno eliminado con éxito');
-          this.dataSource = new MatTableDataSource(alumnos);
-        });
-      }
-      });
+  //   this.dialogService.confirmDialog({
+  //     title: '¿Estás seguro de eliminar este registro?',
+  //     message: '¡Esto no se puede revertir!',
+  //     confirmText: 'Sí, eliminar',
+  //     cancelText: 'Cancelar',
+  //   }).subscribe(data =>
+  //     {
+  //     if(data === true){
+  //       this.alumnoService.deleteAlumno(elemento).subscribe((alumnos) =>{
+  //         this.notificacion('Alumno eliminado con éxito');
+  //         this.dataSource = new MatTableDataSource(alumnos);
+  //       });
+  //     }
+  //     });
 
   }
 

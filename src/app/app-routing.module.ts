@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './layout/layout.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
+import { AdminGuard } from './auth/Guards/admin.guard';
+import { AuthGuard } from './auth/Guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -13,6 +15,7 @@ const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'alumnos',
@@ -28,6 +31,7 @@ const routes: Routes = [
       }
     ]
   },
+  { path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
   {
     path: '**',
     redirectTo: ''

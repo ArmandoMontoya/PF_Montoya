@@ -33,12 +33,9 @@ export class EditarComponent implements OnInit {
       nombre: new FormControl(data.nombre),
       apellidoPaterno: new FormControl(data.apellidoPaterno),
       apellidoMaterno: new FormControl(data.apellidoMaterno),
-      fechaNacimiento: new FormControl(data.fechaNacimiento),
+      fechaNacimiento: new FormControl(data.foto),
       curp: new FormControl(data.curp),
       sexo: new FormControl(data.sexo),
-      direccion: new FormControl(data.direccion),
-      contacto: new FormControl(data.contacto),
-      numeroContacto: new FormControl(data.numeroContacto),
     })
   }
 

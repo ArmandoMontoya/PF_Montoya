@@ -1,15 +1,13 @@
 export interface Alumno {
   idAlumno: number;
+  idInscripcion: string;
   numeroControl: string;
   nombre: string;
   apellidoPaterno: string;
   apellidoMaterno: string;
-  fechaNacimiento: Date;
   curp: string;
   sexo: string;
-  direccion: string;
-  contacto: string;
-  numeroContacto: string;
+  foto: string;
 }
 
 export interface SelectAlumno {

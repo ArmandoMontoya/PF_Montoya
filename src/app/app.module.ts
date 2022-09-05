@@ -19,6 +19,7 @@ import { ConfirmDialogComponent } from './shared/components/confirm-dialog/confi
 import { AlumnosModule } from './alumnos/alumnos.module';
 import { SharedModule } from './shared/shared.module';
 import { RouterModule } from '@angular/router';
+import { AuthService } from './auth/services/auth.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,9 @@ import { RouterModule } from '@angular/router';
     RouterModule,
     SharedModule
   ],
-  providers: [],
+  providers: [
+    AuthService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
