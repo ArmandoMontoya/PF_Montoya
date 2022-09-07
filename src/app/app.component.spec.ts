@@ -26,10 +26,4 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('proyectoFinal_Montoya');
   });
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('proyectoFinal_Montoya app is running!');
-  });
 });

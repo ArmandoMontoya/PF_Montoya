@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { LoginComponent } from './login.component';
+import { HttpClientModule } from '@angular/common/http';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -8,6 +11,11 @@ describe('LoginComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule,
+        HttpClientModule,
+        MatSnackBarModule
+      ],
       declarations: [ LoginComponent ]
     })
     .compileComponents();
@@ -17,7 +25,19 @@ describe('LoginComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('El componente ha sido creado', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('El formulario debe retornar valido', () => {
+    const form = component.formLogin;
+
+    const usuario = component.formLogin.controls['usuario'];
+    usuario.setValue('Justice.Kunze39');
+
+    const contrasena = component.formLogin.controls['contrasena'];
+    contrasena.setValue('FjbvpxBb6TLCvnz');
+
+    expect(form.invalid).toBeFalse();
   });
 });
