@@ -7,6 +7,7 @@ import { DialogService } from 'src/app/shared/services/dialog.service';
 import { Curso } from '../../interfaces/cursos';
 import { DialogCursosComponent } from '../dialog-cursos/dialog-cursos.component';
 import { CursosService } from '../../services/cursos.service';
+import { NotificacionService } from '../../../shared/services/notificacion.service';
 
 @Component({
   selector: 'app-listar-cursos',
@@ -27,7 +28,7 @@ export class ListarCursosComponent implements OnInit {
     private dialog: MatDialog,
     private dialogService: DialogService,
     private cursosService: CursosService,
-    private snackBar: MatSnackBar
+    private notificacion: NotificacionService
   ) {
     this.listarCursos();
   }
@@ -43,17 +44,25 @@ export class ListarCursosComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(resultado => {
       if(resultado){
-        this.dataSource.data.push(resultado);
-        this.notificacion('Curso creado con éxito');
-        this.tabla.renderRows();
+        this.cursosService.addCurso(resultado).subscribe((response) => {
+          this.listarCursos();
+          this.notificacion.mensaje('Alumno creado con éxito');
+          this.tabla.renderRows();
+        });
       }
     });
   }
 
   listarCursos(){
-    this.cursosService.getCursos().subscribe((cursos) => {
-      this.dataSource = new MatTableDataSource(cursos);
+    this.CURSOS_DATA = [];
+    for(let i = 1; i <= 3; i++){
+    this.cursosService.getCursos(i).subscribe((cursos) => {
+      cursos.forEach(alumno => {
+        this.CURSOS_DATA.push(alumno);
+      });
+      this.dataSource = new MatTableDataSource(this.CURSOS_DATA);
    });
+  }
   }
 
   editar(elemento: Curso){
@@ -65,8 +74,8 @@ export class ListarCursosComponent implements OnInit {
     dialogRef.afterClosed().subscribe(resultado => {
       if(resultado){
           this.cursosService.updateCurso(resultado).subscribe((cursos) => {
-            this.dataSource = new MatTableDataSource(cursos);
-              this.notificacion('Curso modificado con éxito');
+            this.listarCursos();
+              this.notificacion.mensaje('Curso modificado con éxito');
         });
       }
     });
@@ -82,8 +91,8 @@ export class ListarCursosComponent implements OnInit {
       {
       if(data === true){
         this.cursosService.deleteCurso(elemento).subscribe((cursos) =>{
-          this.notificacion('Curso eliminado con éxito');
-          this.dataSource = new MatTableDataSource(cursos);
+          this.listarCursos();
+          this.notificacion.mensaje('Curso eliminado con éxito');
         });
       }
       });
@@ -93,13 +102,5 @@ export class ListarCursosComponent implements OnInit {
   filtrar(event: Event){
     const valorObtenido = (event.target as HTMLInputElement).value;
     this.dataSource.filter = valorObtenido.trim().toLocaleLowerCase();
-  }
-
-  notificacion(mensaje:string){
-    this.snackBar.open(mensaje, 'x',{
-      duration: 3000,
-      horizontalPosition: 'center',
-      verticalPosition: 'top',
-    });
   }
 }

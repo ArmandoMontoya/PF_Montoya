@@ -16,7 +16,7 @@ import { NotificacionService } from '../../../shared/services/notificacion.servi
 export class ListarComponent implements OnInit {
   title:string = 'Alumnos';
 
-  columnas: string[] = [ 'foto', 'numeroControl', 'nombre', 'curp', 'sexo', 'acciones'];
+  columnas: string[] = [ 'foto', 'numeroControl', 'nombre', 'curp', 'fechaNacimiento', 'acciones'];
 
   ALUMNOS_DATA: Alumno[] = [];
 
@@ -43,52 +43,61 @@ export class ListarComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(resultado => {
       if(resultado){
-        this.dataSource.data.push(resultado);
-        this.notificacion.mensaje('Alumno creado con éxito');
-        this.tabla.renderRows();
+        this.alumnoService.addAlumno(resultado).subscribe((response) => {
+
+          this.listarAlumnos();
+          this.notificacion.mensaje('Alumno creado con éxito');
+          this.tabla.renderRows();
+        });
       }
     });
   }
 
   listarAlumnos(){
-    this.alumnoService.getAlumnos().subscribe((alumnos) => {
-      console.log(alumnos)
-      this.dataSource = new MatTableDataSource(alumnos);
-   });
+    this.ALUMNOS_DATA = [];
+    for(let i = 1; i <= 3; i++){
+      this.alumnoService.getAlumnos(i).subscribe((alumnos) => {
+        alumnos.forEach(alumno => {
+          this.ALUMNOS_DATA.push(alumno);
+        });
+        this.dataSource = new MatTableDataSource(this.ALUMNOS_DATA);
+     });
+    }
   }
 
   editar(elemento: Alumno){
-  //   const dialogRef = this.dialog.open(EditarComponent, {
-  //     width: '700px',
-  //     data: elemento
-  //   });
+    console.log(elemento);
+    const dialogRef = this.dialog.open(EditarComponent, {
+      width: '700px',
+      data: elemento
+    });
 
 
-  //   dialogRef.afterClosed().subscribe(resultado => {
-  //     if(resultado){
-  //         this.alumnoService.updateAlumno(resultado).subscribe((alumnos) => {
-  //           this.dataSource = new MatTableDataSource(alumnos);
-  //             this.notificacion('Alumno modificado con éxito');
-  //       });
-  //     }
-  //   });
+    dialogRef.afterClosed().subscribe(resultado => {
+      if(resultado){
+          this.alumnoService.updateAlumno(resultado).subscribe((alumnos) => {
+            this.listarAlumnos();
+              this.notificacion.mensaje('Alumno modificado con éxito');
+        });
+      }
+    });
   }
 
   eliminar(elemento: Alumno){
-  //   this.dialogService.confirmDialog({
-  //     title: '¿Estás seguro de eliminar este registro?',
-  //     message: '¡Esto no se puede revertir!',
-  //     confirmText: 'Sí, eliminar',
-  //     cancelText: 'Cancelar',
-  //   }).subscribe(data =>
-  //     {
-  //     if(data === true){
-  //       this.alumnoService.deleteAlumno(elemento).subscribe((alumnos) =>{
-  //         this.notificacion('Alumno eliminado con éxito');
-  //         this.dataSource = new MatTableDataSource(alumnos);
-  //       });
-  //     }
-  //     });
+    this.dialogService.confirmDialog({
+      title: '¿Estás seguro de eliminar este registro?',
+      message: '¡Esto no se puede revertir!',
+      confirmText: 'Sí, eliminar',
+      cancelText: 'Cancelar',
+    }).subscribe(data =>
+      {
+      if(data === true){
+        this.alumnoService.deleteAlumno(elemento).subscribe((alumnos) =>{
+          this.listarAlumnos();
+          this.notificacion.mensaje('Alumno eliminado con éxito');
+        });
+      }
+      });
 
   }
 

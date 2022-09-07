@@ -29,8 +29,8 @@ export class DialogInscripcionesComponent implements OnInit {
     }
     this.formulario = fb.group({
       idInscripcion: new FormControl(data.idInscripcion),
-      idAlumno: new FormControl(data.idAlumno),
-      idCurso: new FormControl(data.idCurso),
+      // idAlumno: new FormControl(data.idAlumno),
+      // idCurso: new FormControl(data.idCurso),
       fecha_inscripcion: new FormControl(data.fecha_inscripcion)
     })
   }

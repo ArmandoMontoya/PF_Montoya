@@ -4,25 +4,18 @@
     <div class="container">
       <div class="row">
 
-        <!--Número de control-->
+        <!--Descripción-->
         <div class="col-md-6">
           <mat-form-field appearance="fill" class="full-width-field">
-            <mat-label>idCurso</mat-label>
-            <input formControlName="idCurso" matInput>
-          </mat-form-field>
-        </div>
-
-        <!--Número de control-->
-        <div class="col-md-6">
-          <mat-form-field appearance="fill" class="full-width-field">
-            <mat-label>descripcion</mat-label>
+            <mat-label>Descripción</mat-label>
             <input formControlName="descripcion" matInput>
           </mat-form-field>
         </div>
 
+        <!--Fecha de creación-->
         <div class="col-md-6">
           <mat-form-field appearance="fill" class="full-width-field">
-            <mat-label>fecha_Creacion</mat-label>
+            <mat-label>Fecha de creación</mat-label>
             <input matInput [matDatepicker]="picker" formControlName="fecha_Creacion">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -30,18 +23,18 @@
           </mat-form-field>
         </div>
 
-        <!--Nombre-->
+        <!--Duración-->
         <div class="col-md-6">
           <mat-form-field appearance="fill" class="full-width-field">
-            <mat-label>duracion</mat-label>
+            <mat-label>Duración en meses</mat-label>
             <input formControlName="duracion" matInput>
           </mat-form-field>
         </div>
 
-        <!--Apellido Paterno-->
+        <!--Estatus-->
         <div class="col-md-6">
           <mat-form-field appearance="fill" class="full-width-field">
-            <mat-label>estatus</mat-label>
+            <mat-label>Estatus</mat-label>
             <input formControlName="estatus" matInput>
           </mat-form-field>
         </div>

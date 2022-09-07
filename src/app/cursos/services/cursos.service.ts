@@ -1,36 +1,32 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Curso } from '../interfaces/cursos';
+import { environment } from '../../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+
+const _urlApi = environment.apiUrl;
 
 @Injectable({
   providedIn: 'root'
 })
 export class CursosService {
-  cursosFakeData: Curso[] = [
-    {idCurso: 1, descripcion: 'Matemáticas', fecha_Creacion: new Date(), duracion: 6, estatus: 1},
-    {idCurso: 2, descripcion: 'Física', fecha_Creacion: new Date(), duracion: 12, estatus: 1},
-  ];
 
-  constructor() { }
+  constructor(private _http: HttpClient) { }
 
-  getCursos(): Observable<Curso[]>{
-    return of(this.cursosFakeData);
+  getCursos(idInscripcion: number): Observable<Curso[]>{
+    return this._http.get<Curso[]>(`${_urlApi}/inscripcion/${idInscripcion}/curso`)
   }
 
-  updateCurso(resultado: Curso): Observable<Curso[]>{
-    console.log(resultado)
-    const item = this.cursosFakeData.find(curso => curso.idCurso === resultado.idCurso);
-    console.log(item)
-    const index = this.cursosFakeData.indexOf(item!);
-    console.log(index)
-    this.cursosFakeData[index] = resultado;
-
-    return of(this.cursosFakeData);
+  addCurso(curso: Curso): Observable<Curso[]>{
+    curso.idInscripcion = 1;
+    return this._http.post<Curso[]>(`${_urlApi}/inscripcion/${curso.idInscripcion}/curso`, curso);
   }
 
-  deleteCurso(elemento: Curso):Observable<Curso[]>{
-    this.cursosFakeData = this.cursosFakeData.filter((curso: Curso) => curso.idCurso != elemento.idCurso);
+  updateCurso(curso: Curso): Observable<Curso[]>{
+    return this._http.put<Curso[]>(`${_urlApi}/inscripcion/${curso.idInscripcion}/curso/${curso.idCurso}`, curso);
+  }
 
-    return of(this.cursosFakeData);
+  deleteCurso(curso: Curso):Observable<Curso[]>{
+    return this._http.delete<Curso[]>(`${_urlApi}/inscripcion/${curso.idInscripcion}/curso/${curso.idCurso}`)
   }
 }

@@ -23,33 +23,33 @@
 </div>
 
 <table mat-table mat-table class="full-width-table" [dataSource]="dataSource">
-  <!-- Columna Número de control -->
+  <!-- Columna Número Curso -->
   <ng-container matColumnDef="idCurso">
     <th mat-header-cell *matHeaderCellDef>N° Curso</th>
     <td mat-cell *matCellDef="let element">{{ element.idCurso }}</td>
   </ng-container>
 
-  <!-- Columna Nombre -->
+  <!-- Columna Descripción -->
   <ng-container matColumnDef="descripcion">
-    <th mat-header-cell *matHeaderCellDef>descripcion</th>
+    <th mat-header-cell *matHeaderCellDef>Descripción</th>
     <td mat-cell *matCellDef="let element">{{ element.descripcion}}</td>
   </ng-container>
 
-  <!-- Columna Fecha de Nacimiento -->
+  <!-- Columna Fecha de Creación -->
   <ng-container matColumnDef="fecha_Creacion">
-    <th mat-header-cell *matHeaderCellDef>fecha_Creacion</th>
+    <th mat-header-cell *matHeaderCellDef>Fecha de creación</th>
     <td mat-cell *matCellDef="let element">{{ element.fecha_Creacion | date:'shortDate' }}</td>
   </ng-container>
 
-  <!-- Columna CURP -->
+  <!-- Columna Duración -->
   <ng-container matColumnDef="duracion">
-    <th mat-header-cell *matHeaderCellDef>duracion</th>
+    <th mat-header-cell *matHeaderCellDef>Duración</th>
     <td mat-cell *matCellDef="let element">{{ element.duracion }}</td>
   </ng-container>
 
-  <!-- Columna Sexo -->
+  <!-- Columna Estatus -->
   <ng-container matColumnDef="estatus">
-    <th mat-header-cell *matHeaderCellDef>estatus</th>
+    <th mat-header-cell *matHeaderCellDef>Estatus</th>
     <td mat-cell *matCellDef="let element">{{ element.estatus }}</td>
   </ng-container>
 
@@ -57,6 +57,9 @@
   <ng-container matColumnDef="acciones">
     <th mat-header-cell *matHeaderCellDef>Acciones</th>
     <td mat-cell *matCellDef="let element">
+      <button mat-icon-button color="primary" matTooltip="Ver detalle" matTooltipPosition="above" (click)="editar(element)">
+        <mat-icon>remove_red_eye</mat-icon>
+      </button>
       <button mat-icon-button color="primary" matTooltip="Editar" matTooltipPosition="above" (click)="editar(element)">
         <mat-icon>edit</mat-icon>
       </button>

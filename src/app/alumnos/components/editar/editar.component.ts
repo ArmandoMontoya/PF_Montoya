@@ -29,13 +29,15 @@ export class EditarComponent implements OnInit {
       this.tituloDialog = 'Agregar Alumno';
     }
     this.formulario = fb.group({
+      idInscripcion: new FormControl(data.idInscripcion),
+      idAlumno: new FormControl(data.idAlumno),
       numeroControl: new FormControl(data.numeroControl),
       nombre: new FormControl(data.nombre),
       apellidoPaterno: new FormControl(data.apellidoPaterno),
       apellidoMaterno: new FormControl(data.apellidoMaterno),
-      fechaNacimiento: new FormControl(data.foto),
+      fechaNacimiento: new FormControl(data.fechaNacimiento),
       curp: new FormControl(data.curp),
-      sexo: new FormControl(data.sexo),
+      foto: new FormControl(data.foto)
     })
   }
 

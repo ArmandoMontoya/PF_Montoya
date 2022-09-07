@@ -1,5 +1,6 @@
 export interface Curso {
   idCurso: number;
+  idInscripcion: number;
   descripcion: string;
   fecha_Creacion: Date;
   duracion: number;

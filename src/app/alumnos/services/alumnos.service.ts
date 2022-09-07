@@ -14,21 +14,20 @@ export class AlumnosService {
 
   constructor(private _http: HttpClient) { }
 
-  getAlumnos(): Observable<Alumno[]>{
-    return this._http.get<Alumno[]>(`${_urlApi}/inscripcion/1/alumno`)
+  getAlumnos(idInscripcion: number): Observable<Alumno[]>{
+    return this._http.get<Alumno[]>(`${_urlApi}/inscripcion/${idInscripcion}/alumno`)
   }
 
-  // updateAlumno(resultado: Alumno): Observable<Alumno[]>{
-  //   // const item = this.alumnosFakeData.find(alumno => alumno.idAlumno === resultado.idAlumno);
-  //   // const index = this.alumnosFakeData.indexOf(item!);
-  //   // this.alumnosFakeData[index] = resultado;
+  addAlumno(alumno: Alumno): Observable<Alumno[]>{
+    alumno.idInscripcion = 1;
+    return this._http.post<Alumno[]>(`${_urlApi}/inscripcion/${alumno.idInscripcion}/alumno`, alumno);
+  }
 
-  //   // return of(this.alumnosFakeData);
-  // }
+  updateAlumno(alumno: Alumno): Observable<Alumno[]>{
+    return this._http.put<Alumno[]>(`${_urlApi}/inscripcion/${alumno.idInscripcion}/alumno/${alumno.idAlumno}`, alumno);
+  }
 
-  // deleteAlumno(elemento: Alumno):Observable<Alumno[]>{
-  //   // this.alumnosFakeData = this.alumnosFakeData.filter((alumno: Alumno) => alumno.idAlumno != elemento.idAlumno);
-
-  //   // return of(this.alumnosFakeData);
-  // }
+  deleteAlumno(alumno: Alumno):Observable<Alumno[]>{
+    return this._http.delete<Alumno[]>(`${_urlApi}/inscripcion/${alumno.idInscripcion}/alumno/${alumno.idAlumno}`)
+  }
 }
