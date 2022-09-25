@@ -1,0 +1,42 @@
+<h1 mat-dialog-title>{{tituloDialog}}</h1>
+<div mat-dialog-content>
+  <form [formGroup]="formulario">
+    <div class="container">
+      <div class="row">
+
+        <!--User-->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="full-width-field" >
+            <mat-label>Usuario</mat-label>
+            <input formControlName="user" matInput readonly>
+          </mat-form-field>
+        </div>
+
+        <!--Password-->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="full-width-field">
+            <mat-label>Password</mat-label>
+            <input formControlName="password" matInput readonly>
+          </mat-form-field>
+        </div>
+
+        <!--Admin-->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Rol de usuario</mat-label>
+            <select matNativeControl formControlName="Admin" readonly>
+              <option [value]=true>Administrador</option>
+              <option [value]=false>Estudiante</option>
+            </select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+
+
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="cerrar()">Cerrar</button>
+</div>

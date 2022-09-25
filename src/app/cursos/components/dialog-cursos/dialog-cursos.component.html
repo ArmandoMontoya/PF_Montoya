@@ -8,7 +8,7 @@
         <div class="col-md-6">
           <mat-form-field appearance="fill" class="full-width-field">
             <mat-label>Descripción</mat-label>
-            <input formControlName="descripcion" matInput>
+            <input formControlName="Descripcion" matInput>
           </mat-form-field>
         </div>
 
@@ -16,7 +16,7 @@
         <div class="col-md-6">
           <mat-form-field appearance="fill" class="full-width-field">
             <mat-label>Fecha de creación</mat-label>
-            <input matInput [matDatepicker]="picker" formControlName="fecha_Creacion">
+            <input matInput [matDatepicker]="picker" formControlName="FechaCreacion">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
@@ -27,15 +27,18 @@
         <div class="col-md-6">
           <mat-form-field appearance="fill" class="full-width-field">
             <mat-label>Duración en meses</mat-label>
-            <input formControlName="duracion" matInput>
+            <input formControlName="Duracion" matInput>
           </mat-form-field>
         </div>
 
         <!--Estatus-->
         <div class="col-md-6">
-          <mat-form-field appearance="fill" class="full-width-field">
+          <mat-form-field appearance="fill">
             <mat-label>Estatus</mat-label>
-            <input formControlName="estatus" matInput>
+            <select matNativeControl required formControlName="Estatus">
+              <option [ngValue]="true">Activo</option>
+              <option [ngValue]="false">Inactivo</option>
+            </select>
           </mat-form-field>
         </div>
 

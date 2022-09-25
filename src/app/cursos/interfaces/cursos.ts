@@ -1,14 +1,13 @@
 export interface Curso {
-  idCurso: number;
-  idInscripcion: number;
-  descripcion: string;
-  fecha_Creacion: Date;
-  duracion: number;
-  estatus: number;
+  CursoId: number;
+  Descripcion: string;
+  Estatus: boolean;
+  FechaCreacion: Date;
+  Duracion: number;
 }
 
 export interface SelectCurso {
-  idCurso: number;
-  descripcion: string;
+  CursoId: number;
+  Descripcion: string;
 }
 

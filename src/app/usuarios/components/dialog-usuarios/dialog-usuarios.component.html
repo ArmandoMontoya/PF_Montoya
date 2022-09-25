@@ -1,0 +1,42 @@
+<h1 mat-dialog-title>{{tituloDialog}}</h1>
+<div mat-dialog-content>
+  <form [formGroup]="formulario">
+    <div class="container">
+      <div class="row">
+
+        <!--User-->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="full-width-field">
+            <mat-label>Usuario</mat-label>
+            <input formControlName="user" matInput>
+          </mat-form-field>
+        </div>
+
+        <!--Password-->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="full-width-field">
+            <mat-label>Password</mat-label>
+            <input formControlName="password" matInput>
+          </mat-form-field>
+        </div>
+
+        <!--Admin-->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Rol de usuario</mat-label>
+            <select matNativeControl required formControlName="Admin">
+              <option [ngValue]="true">Administrador</option>
+              <option [ngValue]="false">Estudiante</option>
+            </select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="cerrar()">Cerrar</button>
+  <button mat-button mat-raised-button color="primary" (click)="actualizar()">{{textoBoton}}</button>
+</div>

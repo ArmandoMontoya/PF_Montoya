@@ -18,7 +18,7 @@ export class AdminGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       return this.auth.obtenerSesion().pipe(
         map((sesion: Sesion) => {
-          if(sesion.usuario?.admin){
+          if(sesion.usuario?.Admin){
             return true;
           }else{
             alert('El usuario no tiene permisos de admin')

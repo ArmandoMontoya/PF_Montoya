@@ -1,8 +1,9 @@
 <div class="body">
   <form [formGroup]="formLogin">
-  <div class="login">
+  <div class="login col-6">
       <img [src]="logo" alt="" width="50%" height="80%">
       <h1 class="h3 mb-3 fw-normal">Login</h1>
+
       <mat-form-field class="ancho" appearance="fill" >
           <mat-label>Usuario</mat-label>
           <input matInput formControlName="usuario">
@@ -14,5 +15,7 @@
         <br>
         <button (click)="login()" class="ancho" mat-raised-button mat-button color="primary">Iniciar sesión</button>
   </div>
+  <pre class="col-6">{{listaUsuarios | async | json}}</pre>
+
 </form>
 </div>

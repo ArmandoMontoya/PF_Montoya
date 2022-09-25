@@ -17,7 +17,7 @@ import { NotificacionService } from '../../../shared/services/notificacion.servi
 export class ListarCursosComponent implements OnInit {
   title:string = 'Cursos';
 
-  columnas: string[] = ['idCurso', 'descripcion', 'fecha_Creacion', 'duracion', 'estatus', 'acciones'];
+  columnas: string[] = ['CursoId', 'Descripcion', 'FechaCreacion', 'Duracion', 'Estatus', 'acciones'];
 
   CURSOS_DATA: Curso[] = [];
 
@@ -55,14 +55,10 @@ export class ListarCursosComponent implements OnInit {
 
   listarCursos(){
     this.CURSOS_DATA = [];
-    for(let i = 1; i <= 3; i++){
-    this.cursosService.getCursos(i).subscribe((cursos) => {
-      cursos.forEach(alumno => {
-        this.CURSOS_DATA.push(alumno);
-      });
+    this.cursosService.getCursos().subscribe((cursos) => {
+      this.CURSOS_DATA = cursos;
       this.dataSource = new MatTableDataSource(this.CURSOS_DATA);
    });
-  }
   }
 
   editar(elemento: Curso){

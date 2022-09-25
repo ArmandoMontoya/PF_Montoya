@@ -4,27 +4,27 @@
     <div class="container">
       <div class="row">
 
-        <!--Número de control-->
-        <div class="col-md-6">
-          <mat-form-field appearance="fill" class="full-width-field">
-            <mat-label>idInscripcion</mat-label>
-            <input formControlName="idInscripcion" matInput>
-          </mat-form-field>
-        </div>
-
         <!--Nombre-->
         <div class="col-md-6">
-          <mat-form-field appearance="fill" class="full-width-field">
-            <mat-label>idAlumno</mat-label>
-            <input formControlName="idAlumno" matInput>
+          <mat-form-field appearance="fill">
+            <mat-label>Alumno</mat-label>
+            <mat-select formControlName="AlumnoId">
+              <mat-option *ngFor="let alumno of selectAlumnos" [value]="alumno.alumnoId">
+                {{alumno | nombreCompletoPipe}}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
 
         <!--Apellido Paterno-->
         <div class="col-md-6">
-          <mat-form-field appearance="fill" class="full-width-field">
-            <mat-label>idCurso</mat-label>
-            <input formControlName="idCurso" matInput>
+          <mat-form-field appearance="fill">
+            <mat-label>Curso</mat-label>
+            <mat-select formControlName="CursoId">
+              <mat-option *ngFor="let curso of selectCursos" [value]="curso.cursoId">
+                {{curso.descripcion}}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
 
@@ -33,11 +33,19 @@
         <!--Fecha de Nacimiento-->
         <div class="col-md-6">
           <mat-form-field appearance="fill" class="full-width-field">
-            <mat-label>fecha_inscripcion</mat-label>
-            <input matInput [matDatepicker]="picker" formControlName="fecha_inscripcion">
+            <mat-label>Fecha de inscripción</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="FechaInscripcion">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <!--Usuario que lo asigna-->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="full-width-field">
+            <mat-label>Usuario que asigna</mat-label>
+            <input matInput formControlName="UsuarioId">
           </mat-form-field>
         </div>
 

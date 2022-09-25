@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { Inscripcion, ListaInscripcion } from '../../interfaces/inscripciones';
+import { Inscripcion } from '../../interfaces/inscripciones';
 import { DialogInscripcionesComponent } from '../dialog-inscripciones/dialog-inscripciones.component';
 import { InscripcionesService } from '../../services/inscripciones.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,6 +11,7 @@ import { CursosService } from '../../../cursos/services/cursos.service';
 import { SelectAlumno } from 'src/app/alumnos/interfaces/alumno.interface';
 import { NotificacionService } from '../../../shared/services/notificacion.service';
 import { Alumno } from '../../../alumnos/interfaces/alumno.interface';
+import { SelectCurso } from '../../../cursos/interfaces/cursos';
 
 @Component({
   selector: 'app-listar-inscripciones',
@@ -20,13 +21,15 @@ import { Alumno } from '../../../alumnos/interfaces/alumno.interface';
 export class ListarInscripcionesComponent implements OnInit {
   title:string = 'Inscripciones';
 
-  columnas: string[] = ['idInscripcion', 'fecha_inscripcion', 'nombreAlumno', 'nombreCurso', 'acciones'];
+  columnas: string[] = ['inscripcionId', 'nombre', 'descripcion', 'user', 'fechaInscripcion', 'acciones'];
 
   INSCRIPCIONES_DATA: any[] = [];
-  DATA: ListaInscripcion[] = [];
+  DATA: Inscripcion[] = [];
 
-  dataSource!: MatTableDataSource<ListaInscripcion>;
+  dataSource!: MatTableDataSource<Inscripcion>;
   @ViewChild(MatTable) tabla!: MatTable<any>;
+
+
 
   constructor(
     private dialog: MatDialog,
@@ -41,6 +44,8 @@ export class ListarInscripcionesComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+
 
   agregar(){
     const dialogRef = this.dialog.open(DialogInscripcionesComponent, {
@@ -61,27 +66,12 @@ export class ListarInscripcionesComponent implements OnInit {
   listarInscripciones(){
     this.INSCRIPCIONES_DATA = [];
     this.inscripcionesService.getInscripciones().subscribe((inscripciones) => {
-      console.log(inscripciones)
-      inscripciones.map(  (inscripcion) => {
-
-        inscripcion.alumnos.map( (alumno) => {
-          let alumnos = `${alumno.nombre} ${alumno.apellidoPaterno} ${alumno.apellidoMaterno}`;
-          this.INSCRIPCIONES_DATA.push({idInscripcion:inscripcion.idInscripcion, fecha_inscripcion:inscripcion.fecha_inscripcion, nombreAlumno:alumnos})
-        });
-
-        console.log(this.INSCRIPCIONES_DATA)
-        inscripcion.cursos.map( (curso) => {
-          this.INSCRIPCIONES_DATA[this.contador].nombreCurso = curso.descripcion;
-          this.contador++;
-        });
-      });
-
-
-      this.DATA = this.INSCRIPCIONES_DATA;
-      console.log(this.DATA)
-      this.dataSource = new MatTableDataSource(this.DATA)
+      this.DATA = inscripciones;
+      this.dataSource = new MatTableDataSource(this.DATA);
     });
   }
+
+
 
   editar(elemento: Inscripcion){
     const dialogRef = this.dialog.open(DialogInscripcionesComponent, {

@@ -24,31 +24,31 @@
 
 <table mat-table mat-table class="full-width-table" [dataSource]="dataSource">
   <!-- Columna Número Curso -->
-  <ng-container matColumnDef="idCurso">
+  <ng-container matColumnDef="CursoId">
     <th mat-header-cell *matHeaderCellDef>N° Curso</th>
-    <td mat-cell *matCellDef="let element">{{ element.idCurso }}</td>
+    <td mat-cell *matCellDef="let curso">{{ curso.cursoId }}</td>
   </ng-container>
 
   <!-- Columna Descripción -->
-  <ng-container matColumnDef="descripcion">
+  <ng-container matColumnDef="Descripcion">
     <th mat-header-cell *matHeaderCellDef>Descripción</th>
     <td mat-cell *matCellDef="let element">{{ element.descripcion}}</td>
   </ng-container>
 
   <!-- Columna Fecha de Creación -->
-  <ng-container matColumnDef="fecha_Creacion">
+  <ng-container matColumnDef="FechaCreacion">
     <th mat-header-cell *matHeaderCellDef>Fecha de creación</th>
-    <td mat-cell *matCellDef="let element">{{ element.fecha_Creacion | date:'shortDate' }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.fechaCreacion | date:'shortDate' }}</td>
   </ng-container>
 
   <!-- Columna Duración -->
-  <ng-container matColumnDef="duracion">
+  <ng-container matColumnDef="Duracion">
     <th mat-header-cell *matHeaderCellDef>Duración</th>
     <td mat-cell *matCellDef="let element">{{ element.duracion }}</td>
   </ng-container>
 
   <!-- Columna Estatus -->
-  <ng-container matColumnDef="estatus">
+  <ng-container matColumnDef="Estatus">
     <th mat-header-cell *matHeaderCellDef>Estatus</th>
     <td mat-cell *matCellDef="let element">{{ element.estatus }}</td>
   </ng-container>
@@ -68,6 +68,7 @@
       </button>
     </td>
   </ng-container>
+
 
   <tr mat-header-row *matHeaderRowDef="columnas"></tr>
   <tr mat-row *matRowDef="let row; columns: columnas;"></tr>

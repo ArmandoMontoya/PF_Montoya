@@ -6,21 +6,26 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { MaterialModule } from '../material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { NombreCompletoPipe } from '../alumnos/pipes/nombre-completo.pipe';
 
 
 
 @NgModule({
   declarations: [
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    NombreCompletoPipe,
   ],
   imports: [
     CommonModule,
     MaterialModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule,
   ],
   exports: [
     MaterialModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule,
+    NombreCompletoPipe
   ]
 })
 export class SharedModule { }

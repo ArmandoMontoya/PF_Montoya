@@ -1,0 +1,12 @@
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { ListarUsuariosComponent } from './components/listar-usuarios/listar-usuarios.component';
+
+
+const routes: Routes = [{ path: '', component: ListarUsuariosComponent }];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
+export class UsuariosRoutingModule { }

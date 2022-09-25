@@ -16,7 +16,7 @@ import { NotificacionService } from '../../../shared/services/notificacion.servi
 export class ListarComponent implements OnInit {
   title:string = 'Alumnos';
 
-  columnas: string[] = [ 'foto', 'numeroControl', 'nombre', 'curp', 'fechaNacimiento', 'acciones'];
+  columnas: string[] = [ 'Foto', 'NumeroControl', 'Nombre', 'Curp', 'FechaNacimiento', 'acciones'];
 
   ALUMNOS_DATA: Alumno[] = [];
 
@@ -55,14 +55,12 @@ export class ListarComponent implements OnInit {
 
   listarAlumnos(){
     this.ALUMNOS_DATA = [];
-    for(let i = 1; i <= 3; i++){
-      this.alumnoService.getAlumnos(i).subscribe((alumnos) => {
+      this.alumnoService.getAlumnos().subscribe((alumnos) => {
         alumnos.forEach(alumno => {
           this.ALUMNOS_DATA.push(alumno);
         });
         this.dataSource = new MatTableDataSource(this.ALUMNOS_DATA);
      });
-    }
   }
 
   editar(elemento: Alumno){
@@ -83,7 +81,7 @@ export class ListarComponent implements OnInit {
     });
   }
 
-  eliminar(elemento: Alumno){
+  eliminar(elemento: any){
     this.dialogService.confirmDialog({
       title: '¿Estás seguro de eliminar este registro?',
       message: '¡Esto no se puede revertir!',

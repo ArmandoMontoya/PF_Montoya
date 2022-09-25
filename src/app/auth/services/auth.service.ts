@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Sesion } from '../interfaces/sesion';
 import { Usuario } from '../interfaces/usuario';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment.prod';
+import { environment } from '../../../environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { NotificacionService } from '../../shared/services/notificacion.service';
@@ -14,30 +14,28 @@ const _apiUrl = environment.apiUrl;
   providedIn: 'root'
 })
 export class AuthService {
-  sesionSubject!: BehaviorSubject<Sesion>
+
+  private sesionSubject: BehaviorSubject<Sesion> = new BehaviorSubject({} as Sesion);
+  public readonly currentUser: Observable<Sesion> = this.sesionSubject.asObservable();
 
   constructor(
     private http: HttpClient,
     private notificacion: NotificacionService,
     private router: Router
-    ) {
-    const sesion: Sesion = {
-      sesionActiva: false
-    };
-
-    this.sesionSubject = new BehaviorSubject(sesion);
+    )
+  {
   }
 
   iniciarSesion(usuario: Usuario) {
-    this.http.get<Usuario>(`${_apiUrl}/usuarios?search=${usuario.usuario}&filter=${usuario.contrasena}`)
+    this.http.post<Usuario>(`${_apiUrl}/Usuario/GetUser`, usuario)
       .subscribe((usuarioLogged: any) => {
         if (usuarioLogged.length > 0) {
           const sesion: Sesion = {
             sesionActiva: true,
             usuario: {
-              usuario: usuario.usuario,
-              contrasena: usuario.contrasena,
-              admin: usuarioLogged[0].Admin,
+              User: usuario.User,
+              Password: usuario.Password,
+              Admin: usuarioLogged[0].Admin,
             }
           }
 

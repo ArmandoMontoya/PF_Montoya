@@ -16,7 +16,7 @@ export class DialogCursosComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<DialogCursosComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Curso
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
 
     if(data){ //Actualizar
@@ -28,12 +28,11 @@ export class DialogCursosComponent implements OnInit {
       this.tituloDialog = 'Agregar Curso';
     }
     this.formulario = fb.group({
-      idCurso: new FormControl(data.idCurso),
-      idInscripcion: new FormControl(data.idInscripcion),
-      descripcion: new FormControl(data.descripcion),
-      fecha_Creacion: new FormControl(data.fecha_Creacion),
-      duracion: new FormControl(data.duracion),
-      estatus: new FormControl(data.estatus),
+      CursoId: new FormControl(data.cursoId),
+      Descripcion: new FormControl(data.descripcion),
+      FechaCreacion: new FormControl(data.fechaCreacion),
+      Duracion: new FormControl(data.duracion),
+      Estatus: new FormControl(data.estatus),
     })
   }
 

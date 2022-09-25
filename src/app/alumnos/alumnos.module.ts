@@ -16,7 +16,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     ListarComponent,
     EditarComponent,
     CabecerasDirective,
-    NombreCompletoPipe,
+
   ],
   imports: [
     CommonModule,
@@ -24,5 +24,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     AlumnosRoutingModule,
     ReactiveFormsModule
   ],
+  exports: [
+  ]
 })
 export class AlumnosModule { }

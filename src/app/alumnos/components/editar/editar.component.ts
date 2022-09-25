@@ -17,7 +17,7 @@ export class EditarComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<EditarComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Alumno
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
 
     if(data){ //Actualizar
@@ -29,8 +29,7 @@ export class EditarComponent implements OnInit {
       this.tituloDialog = 'Agregar Alumno';
     }
     this.formulario = fb.group({
-      idInscripcion: new FormControl(data.idInscripcion),
-      idAlumno: new FormControl(data.idAlumno),
+      alumnoId: new FormControl(data.alumnoId),
       numeroControl: new FormControl(data.numeroControl),
       nombre: new FormControl(data.nombre),
       apellidoPaterno: new FormControl(data.apellidoPaterno),

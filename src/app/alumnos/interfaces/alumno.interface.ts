@@ -1,18 +1,16 @@
 export interface Alumno {
-  idAlumno: number;
-  idInscripcion: number;
-  numeroControl: string;
-  nombre: string;
-  apellidoPaterno: string;
-  apellidoMaterno: string;
-  curp: string;
-  sexo: string;
-  foto: string;
-  fechaNacimiento: Date;
+  AlumnoId: number;
+  NumeroControl: string;
+  Nombre: string;
+  ApellidoPaterno: string;
+  ApellidoMaterno: string;
+  Curp: string;
+  Foto: string;
+  FechaNacimiento: Date;
 }
 
 export interface SelectAlumno {
-  idAlumno: number;
-  nombre: string;
+  AlumnoId: number;
+  Nombre: string;
 }
 

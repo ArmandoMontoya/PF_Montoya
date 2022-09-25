@@ -6,7 +6,7 @@ import { Alumno } from '../interfaces/alumno.interface';
 })
 export class NombreCompletoPipe implements PipeTransform {
 
-  transform(alumno: Alumno): string {
+  transform(alumno:any): string {
     const nombreCompleto = `${alumno.nombre} ${alumno.apellidoPaterno} ${alumno.apellidoMaterno}`;
     return nombreCompleto;
   }
