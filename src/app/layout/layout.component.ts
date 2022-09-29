@@ -32,7 +32,6 @@ export class LayoutComponent {
       this.userServiceSubscription = this.auth.currentUser.subscribe(
         currentUser => {
           this.isAdmin = currentUser.usuario?.Admin
-          console.log(this.isAdmin)
         }
       )
 

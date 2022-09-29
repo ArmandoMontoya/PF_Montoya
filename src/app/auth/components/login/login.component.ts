@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { Usuario } from '../../interfaces/usuario';
 import { AuthService } from '../../services/auth.service';
 import { UsuariosService } from '../../../usuarios/services/usuarios.service';
+import { AppState } from '../../../state/app.state';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +17,7 @@ export class LoginComponent implements OnInit {
   logo = 'https://cdn-icons-png.flaticon.com/512/668/668709.png';
   listaUsuarios:any;
 
-  constructor(private router: Router, private auth: AuthService, private usuariosService:UsuariosService) { }
+  constructor(private router: Router, private auth: AuthService, private usuariosService:UsuariosService, private store: Store<AppState>) { }
 
   ngOnInit(): void {
     this.listaUsuarios = this.usuariosService.getUsuarios();

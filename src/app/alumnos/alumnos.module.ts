@@ -8,6 +8,7 @@ import { ConfirmDialogComponent } from '../shared/components/confirm-dialog/conf
 import { SharedModule } from '../shared/shared.module';
 import { AlumnosRoutingModule } from './alumnos-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DetalleComponent } from './components/detalle/detalle.component';
 
 
 
@@ -15,8 +16,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   declarations: [
     ListarComponent,
     EditarComponent,
+    DetalleComponent,
     CabecerasDirective,
-
   ],
   imports: [
     CommonModule,

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: "http://localhost:5067/Api",
+  apiUrl: "https://apipffinalcoderhouse.azurewebsites.net/Api",
 };
 
 /*

@@ -1,0 +1,114 @@
+<div mat-dialog-content>
+  <form [formGroup]="formulario">
+    <div class="container">
+      <div class="row">
+
+        <!--Número de control-->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="full-width-field">
+            <mat-label>Número de control</mat-label>
+            <input formControlName="numeroControl" matInput>
+          </mat-form-field>
+        </div>
+
+        <!--Nombre-->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="full-width-field">
+            <mat-label>Nombre</mat-label>
+            <input formControlName="nombre" matInput>
+          </mat-form-field>
+        </div>
+
+        <!--Apellido Paterno-->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="full-width-field">
+            <mat-label>Apellido Paterno</mat-label>
+            <input formControlName="apellidoPaterno" matInput>
+          </mat-form-field>
+        </div>
+
+
+        <!--Apellido Materno-->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="full-width-field">
+            <mat-label>Apellido Materno</mat-label>
+            <input formControlName="apellidoMaterno" matInput>
+          </mat-form-field>
+        </div>
+
+        <!--Fecha de Nacimiento-->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="full-width-field">
+            <mat-label>Fecha de Nacimiento</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="fechaNacimiento">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <!--CURP-->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="full-width-field">
+            <mat-label>CURP</mat-label>
+            <input formControlName="curp" matInput>
+          </mat-form-field>
+        </div>
+
+        <!--Foto URL-->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="full-width-field">
+            <mat-label>Foto URL</mat-label>
+            <input formControlName="foto" matInput>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+
+
+  </form>
+
+  <div class="col-12" *ngIf="INSCRIPCIONES_DATA.length === 0"> Sin cursos asignados</div>
+  <!--TABLA DE INSCRIPCIONES-->
+  <table mat-table mat-table class="full-width-table" [dataSource]="dataSource" *ngIf="INSCRIPCIONES_DATA.length > 0">
+    <!-- Columna Fecha de Nacimiento -->
+    <ng-container matColumnDef="descripcion">
+      <th mat-header-cell *matHeaderCellDef>Curso</th>
+      <td mat-cell *matCellDef="let element">{{ element.descripcion }}</td>
+    </ng-container>
+
+    <!-- Columna CURP -->
+    <ng-container matColumnDef="user">
+      <th mat-header-cell *matHeaderCellDef>Usuario que lo inscribió</th>
+      <td mat-cell *matCellDef="let element">{{ element.user  }}</td>
+    </ng-container>
+
+    <!-- Columna CURP -->
+    <ng-container matColumnDef="fechaInscripcion">
+      <th mat-header-cell *matHeaderCellDef>Fecha de inscripción</th>
+      <td mat-cell *matCellDef="let element">{{ element.fechaInscripcion  | date: 'shortDate'  }}</td>
+    </ng-container>
+
+    <!-- Columna Acciones -->
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let element">
+        <!-- <button mat-icon-button color="primary" matTooltip="Editar" matTooltipPosition="above" (click)="editar(element)">
+          <mat-icon>edit</mat-icon>
+        </button> -->
+        <button mat-icon-button color="warn" matTooltip="Eliminar" matTooltipPosition="above" (click)="eliminar(element)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+  </table>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="cerrar()">Cerrar</button>
+</div>
+
+

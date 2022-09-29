@@ -23,7 +23,6 @@ export class AlumnosService {
   }
 
   addAlumno(alumno: Alumno): Observable<Alumno[]>{
-    console.log(alumno)
     return this._http.post<Alumno[]>(`${_urlApi}/Alumno/Create`, alumno);
   }
 

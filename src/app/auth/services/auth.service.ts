@@ -14,6 +14,9 @@ const _apiUrl = environment.apiUrl;
   providedIn: 'root'
 })
 export class AuthService {
+  login(usuario: Usuario) {
+    throw new Error('Method not implemented.');
+  }
 
   private sesionSubject: BehaviorSubject<Sesion> = new BehaviorSubject({} as Sesion);
   public readonly currentUser: Observable<Sesion> = this.sesionSubject.asObservable();
@@ -33,12 +36,13 @@ export class AuthService {
           const sesion: Sesion = {
             sesionActiva: true,
             usuario: {
-              User: usuario.User,
-              Password: usuario.Password,
-              Admin: usuarioLogged[0].Admin,
+              User: usuarioLogged[0].user,
+              Password: usuarioLogged[0].password,
+              Admin: usuarioLogged[0].admin,
+              UsuarioId: usuarioLogged[0].usuarioId,
             }
-          }
 
+          }
           this.sesionSubject.next(sesion);
           this.router.navigate(['/alumnos']);
           this.notificacion.mensaje('Inicio de sesión exitoso');

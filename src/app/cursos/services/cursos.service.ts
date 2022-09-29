@@ -18,11 +18,10 @@ export class CursosService {
   }
 
   selectCursos(): Observable<SelectCurso[]>{
-    return this._http.get<SelectCurso[]>(`${_urlApi}/Curso/GetAll`)
+    return this._http.get<SelectCurso[]>(`${_urlApi}/Curso/GetActive`)
   }
 
   addCurso(curso: Curso): Observable<Curso[]>{
-    console.log(curso)
     return this._http.post<Curso[]>(`${_urlApi}/Curso/Create`, curso);
   }
 

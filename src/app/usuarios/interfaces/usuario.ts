@@ -1,5 +1,5 @@
 export interface Usuario {
-  idUsuario: number;
+  usuarioId: number;
   user: string;
   password: string;
   Admin: boolean;

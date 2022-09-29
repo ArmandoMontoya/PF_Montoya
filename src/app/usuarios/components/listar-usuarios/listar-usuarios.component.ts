@@ -7,6 +7,12 @@ import { Usuario } from '../../interfaces/usuario';
 import { UsuariosService } from '../../services/usuarios.service';
 import { DialogUsuariosComponent } from '../dialog-usuarios/dialog-usuarios.component';
 import { DialogDetailUserComponent } from '../dialog-detail-user/dialog-detail-user.component';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/state/app.state';
+import { selectUsuariosLoading } from 'src/app/state/selectors/usuarios-ngrx.selectors';
+import { selectUsuarios } from '../../../state/selectors/usuarios-ngrx.selectors';
+import { loadAUsuariosNgrxs } from 'src/app/state/actions/usuarios-ngrx.actions';
 
 @Component({
   selector: 'app-listar-usuarios',
@@ -16,23 +22,27 @@ import { DialogDetailUserComponent } from '../dialog-detail-user/dialog-detail-u
 export class ListarUsuariosComponent implements OnInit {
   title:string = 'Usuarios';
 
-  columnas: string[] = [ 'idUsuario', 'user', 'Admin', 'acciones'];
+  columnas: string[] = [ 'usuarioId', 'user', 'admin', 'acciones'];
 
-  USUARIOS_DATA: Usuario[] = [];
+  USUARIOS_DATA: Observable<Usuario[]> = new Observable();
+  loading$: Observable<boolean> = new Observable();
 
-  dataSource = new MatTableDataSource(this.USUARIOS_DATA);
+  dataSource = new MatTableDataSource<Usuario>;
   @ViewChild(MatTable) tabla!: MatTable<Usuario>;
 
   constructor(
     private dialog: MatDialog,
     private dialogService: DialogService,
     private usuariosService: UsuariosService,
-    private notificacion: NotificacionService
+    private notificacion: NotificacionService,
+    private store: Store<AppState>
   ) {
     this.listarUsuarios();
   }
 
   ngOnInit(): void {
+    this.loading$ = this.store.select(selectUsuariosLoading);
+    this.store.dispatch(loadAUsuariosNgrxs());
   }
 
   agregar(){
@@ -44,7 +54,8 @@ export class ListarUsuariosComponent implements OnInit {
     dialogRef.afterClosed().subscribe(resultado => {
       if(resultado){
         this.usuariosService.addUsuario(resultado).subscribe((response) => {
-
+          this.loading$ = this.store.select(selectUsuariosLoading);
+          this.store.dispatch(loadAUsuariosNgrxs());
           this.listarUsuarios();
           this.notificacion.mensaje('Usuario creado con éxito');
           this.tabla.renderRows();
@@ -54,18 +65,13 @@ export class ListarUsuariosComponent implements OnInit {
   }
 
   listarUsuarios(){
-    this.USUARIOS_DATA = [];
-      this.usuariosService.getUsuarios().subscribe((usuarios) => {
-        usuarios.forEach(usuario => {
-          this.USUARIOS_DATA.push(usuario);
-        });
-        this.dataSource = new MatTableDataSource(this.USUARIOS_DATA);
-     });
-
+      this.USUARIOS_DATA = this.store.select(selectUsuarios);
+      this.USUARIOS_DATA.subscribe(data => {
+        this.dataSource = new MatTableDataSource(data);
+    });
   }
 
   editar(elemento: Usuario){
-    console.log(elemento);
     const dialogRef = this.dialog.open(DialogUsuariosComponent, {
       width: '700px',
       data: elemento
@@ -75,6 +81,8 @@ export class ListarUsuariosComponent implements OnInit {
     dialogRef.afterClosed().subscribe(resultado => {
       if(resultado){
           this.usuariosService.updateUsuario(resultado).subscribe((usuarios) => {
+            this.loading$ = this.store.select(selectUsuariosLoading);
+            this.store.dispatch(loadAUsuariosNgrxs());
             this.listarUsuarios();
               this.notificacion.mensaje('Usuario modificado con éxito');
         });
@@ -92,6 +100,8 @@ export class ListarUsuariosComponent implements OnInit {
       {
       if(data === true){
         this.usuariosService.deleteUsuario(elemento).subscribe((usuarios) =>{
+          this.loading$ = this.store.select(selectUsuariosLoading);
+          this.store.dispatch(loadAUsuariosNgrxs());
           this.listarUsuarios();
           this.notificacion.mensaje('Usuario eliminado con éxito');
         });
@@ -113,3 +123,4 @@ export class ListarUsuariosComponent implements OnInit {
   }
 
 }
+

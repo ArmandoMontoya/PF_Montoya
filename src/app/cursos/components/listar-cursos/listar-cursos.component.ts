@@ -8,6 +8,12 @@ import { Curso } from '../../interfaces/cursos';
 import { DialogCursosComponent } from '../dialog-cursos/dialog-cursos.component';
 import { CursosService } from '../../services/cursos.service';
 import { NotificacionService } from '../../../shared/services/notificacion.service';
+import { Observable, Subscription } from 'rxjs';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/state/app.state';
+import { selectCursos, selectCursosLoading } from 'src/app/state/selectors/cursos-ngrx.selectors';
+import { loadACursosNgrxs } from 'src/app/state/actions/cursos-ngrx.actions';
 
 @Component({
   selector: 'app-listar-cursos',
@@ -19,21 +25,36 @@ export class ListarCursosComponent implements OnInit {
 
   columnas: string[] = ['CursoId', 'Descripcion', 'FechaCreacion', 'Duracion', 'Estatus', 'acciones'];
 
-  CURSOS_DATA: Curso[] = [];
+  CURSOS_DATA: Observable<Curso[]> = new Observable();
+  loading$: Observable<boolean> = new Observable();
 
-  dataSource = new MatTableDataSource(this.CURSOS_DATA);
+  dataSource = new MatTableDataSource<Curso>;
   @ViewChild(MatTable) tabla!: MatTable<Curso>;
+
+  private userServiceSubscription: Subscription | undefined;
+  isAdmin: boolean | undefined = false;
+
 
   constructor(
     private dialog: MatDialog,
     private dialogService: DialogService,
+    private notificacion: NotificacionService,
     private cursosService: CursosService,
-    private notificacion: NotificacionService
+    private auth: AuthService,
+    private store: Store<AppState>
   ) {
     this.listarCursos();
+
+    this.userServiceSubscription = this.auth.currentUser.subscribe(
+      currentUser => {
+        this.isAdmin = currentUser.usuario?.Admin
+      }
+    );
   }
 
   ngOnInit(): void {
+    this.loading$ = this.store.select(selectCursosLoading);
+    this.store.dispatch(loadACursosNgrxs());
   }
 
   agregar(){
@@ -45,8 +66,10 @@ export class ListarCursosComponent implements OnInit {
     dialogRef.afterClosed().subscribe(resultado => {
       if(resultado){
         this.cursosService.addCurso(resultado).subscribe((response) => {
+          this.loading$ = this.store.select(selectCursosLoading);
+    this.store.dispatch(loadACursosNgrxs());
           this.listarCursos();
-          this.notificacion.mensaje('Alumno creado con éxito');
+          this.notificacion.mensaje('Curso creado con éxito');
           this.tabla.renderRows();
         });
       }
@@ -54,11 +77,10 @@ export class ListarCursosComponent implements OnInit {
   }
 
   listarCursos(){
-    this.CURSOS_DATA = [];
-    this.cursosService.getCursos().subscribe((cursos) => {
-      this.CURSOS_DATA = cursos;
-      this.dataSource = new MatTableDataSource(this.CURSOS_DATA);
-   });
+    this.CURSOS_DATA = this.store.select(selectCursos);
+      this.CURSOS_DATA.subscribe(data => {
+        this.dataSource = new MatTableDataSource(data);
+    });
   }
 
   editar(elemento: Curso){
@@ -70,6 +92,8 @@ export class ListarCursosComponent implements OnInit {
     dialogRef.afterClosed().subscribe(resultado => {
       if(resultado){
           this.cursosService.updateCurso(resultado).subscribe((cursos) => {
+            this.loading$ = this.store.select(selectCursosLoading);
+    this.store.dispatch(loadACursosNgrxs());
             this.listarCursos();
               this.notificacion.mensaje('Curso modificado con éxito');
         });
@@ -87,6 +111,8 @@ export class ListarCursosComponent implements OnInit {
       {
       if(data === true){
         this.cursosService.deleteCurso(elemento).subscribe((cursos) =>{
+          this.loading$ = this.store.select(selectCursosLoading);
+    this.store.dispatch(loadACursosNgrxs());
           this.listarCursos();
           this.notificacion.mensaje('Curso eliminado con éxito');
         });

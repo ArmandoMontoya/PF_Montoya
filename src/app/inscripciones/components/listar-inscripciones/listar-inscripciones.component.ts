@@ -12,6 +12,13 @@ import { SelectAlumno } from 'src/app/alumnos/interfaces/alumno.interface';
 import { NotificacionService } from '../../../shared/services/notificacion.service';
 import { Alumno } from '../../../alumnos/interfaces/alumno.interface';
 import { SelectCurso } from '../../../cursos/interfaces/cursos';
+import { Observable, Subscription } from 'rxjs';
+import { AppState } from 'src/app/state/app.state';
+import { Store } from '@ngrx/store';
+import { selectInscripcionesLoading } from 'src/app/state/selectors/inscripciones-ngrx.selectors';
+import { loadAInscripcionesNgrxs } from 'src/app/state/actions/inscripciones-ngrx.actions';
+import { selectInscripciones } from '../../../state/selectors/inscripciones-ngrx.selectors';
+import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'app-listar-inscripciones',
@@ -23,12 +30,15 @@ export class ListarInscripcionesComponent implements OnInit {
 
   columnas: string[] = ['inscripcionId', 'nombre', 'descripcion', 'user', 'fechaInscripcion', 'acciones'];
 
-  INSCRIPCIONES_DATA: any[] = [];
-  DATA: Inscripcion[] = [];
+  INSCRIPCIONES_DATA: Observable<Inscripcion[]> = new Observable();
+  loading$: Observable<boolean> = new Observable();
 
-  dataSource!: MatTableDataSource<Inscripcion>;
+  private userServiceSubscription: Subscription | undefined;
+  isAdmin: boolean | undefined = false;
+
+
+  dataSource = new MatTableDataSource<Inscripcion>;
   @ViewChild(MatTable) tabla!: MatTable<any>;
-
 
 
   constructor(
@@ -37,12 +47,22 @@ export class ListarInscripcionesComponent implements OnInit {
     private inscripcionesService: InscripcionesService,
     private alumnosService: AlumnosService,
     private cursosService:CursosService,
-    private notificacion: NotificacionService
+    private notificacion: NotificacionService,
+    private store: Store<AppState>,
+    private auth:AuthService
   ) {
     this.listarInscripciones();
+
+    this.userServiceSubscription = this.auth.currentUser.subscribe(
+      currentUser => {
+        this.isAdmin = currentUser.usuario?.Admin
+      }
+    );
   }
 
   ngOnInit(): void {
+    this.loading$ = this.store.select(selectInscripcionesLoading);
+    this.store.dispatch(loadAInscripcionesNgrxs());
   }
 
 
@@ -55,19 +75,28 @@ export class ListarInscripcionesComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(resultado => {
       if(resultado){
-        this.dataSource.data.push(resultado);
+        this.inscripcionesService.addInscripcion(resultado).subscribe(
+          (inscripcion) => {
+            // this.dataSource.data.push(resultado);
         this.notificacion.mensaje('Inscripción creada con éxito');
         this.tabla.renderRows();
+        this.loading$ = this.store.select(selectInscripcionesLoading);
+        this.store.dispatch(loadAInscripcionesNgrxs());
+        this.listarInscripciones();
+          }
+        )
+
       }
     });
   }
 
   contador = 0;
   listarInscripciones(){
-    this.INSCRIPCIONES_DATA = [];
-    this.inscripcionesService.getInscripciones().subscribe((inscripciones) => {
-      this.DATA = inscripciones;
-      this.dataSource = new MatTableDataSource(this.DATA);
+    this.INSCRIPCIONES_DATA = this.store.select(selectInscripciones);
+      this.INSCRIPCIONES_DATA.subscribe(data => {
+
+        this.dataSource = new MatTableDataSource(data);
+
     });
   }
 
@@ -83,6 +112,8 @@ export class ListarInscripcionesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(resultado => {
       if(resultado){
           this.inscripcionesService.updateInscripcion(resultado).subscribe((inscripciones) => {
+            this.loading$ = this.store.select(selectInscripcionesLoading);
+        this.store.dispatch(loadAInscripcionesNgrxs());
             this.listarInscripciones();
               this.notificacion.mensaje('Inscripción modificada con éxito');
         });
@@ -101,6 +132,8 @@ export class ListarInscripcionesComponent implements OnInit {
       if(data === true){
         this.inscripcionesService.deleteInscripcion(elemento).subscribe((inscripciones) =>{
           this.notificacion.mensaje('Inscripción eliminada con éxito');
+          this.loading$ = this.store.select(selectInscripcionesLoading);
+        this.store.dispatch(loadAInscripcionesNgrxs());
           this.listarInscripciones();
         });
       }

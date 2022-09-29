@@ -16,6 +16,10 @@ export class InscripcionesService {
     return this._http.get<Inscripcion[]>(`${_urlApi}/Inscripcion/GetAll`);
   }
 
+  getInscripcionesAlumno(alumnoId:number): Observable<Inscripcion[]>{
+    return this._http.get<Inscripcion[]>(`${_urlApi}/Inscripcion/GetInscripcionesAlumno/${alumnoId}`);
+  }
+
   addInscripcion(inscripcion: Inscripcion): Observable<Inscripcion[]>{
     return this._http.post<Inscripcion[]>(`${_urlApi}/Inscripcion/Create`, inscripcion);
   }

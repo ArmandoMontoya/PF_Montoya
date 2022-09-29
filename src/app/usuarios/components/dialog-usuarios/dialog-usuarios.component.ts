@@ -17,7 +17,7 @@ export class DialogUsuariosComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<DialogUsuariosComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Usuario
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
 
     if(data){ //Actualizar
@@ -29,10 +29,10 @@ export class DialogUsuariosComponent implements OnInit {
       this.tituloDialog = 'Agregar Usuario';
     }
     this.formulario = fb.group({
-      idUsuario: new FormControl(data.idUsuario),
+      usuarioId: new FormControl(data.usuarioId),
       user: new FormControl(data.user),
       password : new FormControl(data.password),
-      Admin: new FormControl(data.Admin),
+      Admin: new FormControl(data.admin),
     })
   }
 

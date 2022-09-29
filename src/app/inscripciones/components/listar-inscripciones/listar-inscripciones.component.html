@@ -22,7 +22,9 @@
   </div>
 </div>
 
-<table mat-table mat-table class="full-width-table" [dataSource]="dataSource">
+<mat-spinner  *ngIf="(loading$ | async)"></mat-spinner>
+
+<table mat-table mat-table class="full-width-table" [dataSource]="dataSource" *ngIf="!(loading$ | async)">
   <!-- Columna Número de control -->
   <ng-container matColumnDef="inscripcionId">
     <th mat-header-cell *matHeaderCellDef>inscripcionId</th>
@@ -60,7 +62,7 @@
       <!-- <button mat-icon-button color="primary" matTooltip="Editar" matTooltipPosition="above" (click)="editar(element)">
         <mat-icon>edit</mat-icon>
       </button> -->
-      <button mat-icon-button color="warn" matTooltip="Eliminar" matTooltipPosition="above" (click)="eliminar(element)">
+      <button mat-icon-button color="warn" matTooltip="Eliminar" matTooltipPosition="above" (click)="eliminar(element)" *ngIf="isAdmin">
         <mat-icon>delete</mat-icon>
       </button>
     </td>

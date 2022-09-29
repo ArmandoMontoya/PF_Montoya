@@ -26,6 +26,6 @@ export class UsuariosService {
   }
 
   deleteUsuario(usuario: Usuario):Observable<Usuario[]>{
-    return this._http.delete<Usuario[]>(`${_urlApi}/Usuario/Delete/${usuario.idUsuario}`)
+    return this._http.delete<Usuario[]>(`${_urlApi}/Usuario/Delete/${usuario.usuarioId}`)
   }
 }

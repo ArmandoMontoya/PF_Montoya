@@ -19,17 +19,17 @@ export class DialogDetailUserComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<DialogUsuariosComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Usuario
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
 
     if(data){ //Actualizar
       this.tituloDialog = 'Ver detalle';
     }
     this.formulario = fb.group({
-      idUsuario: new FormControl(data.idUsuario),
+      usuarioId: new FormControl(data.usuarioId),
       user: new FormControl(data.user),
       password : new FormControl(data.password),
-      Admin: new FormControl(data.Admin),
+      Admin: new FormControl(data.admin),
     })
   }
 

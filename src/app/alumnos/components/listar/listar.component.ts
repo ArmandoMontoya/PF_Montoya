@@ -7,6 +7,14 @@ import { EditarComponent } from '../editar/editar.component';
 import { AlumnosService } from '../../services/alumnos.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotificacionService } from '../../../shared/services/notificacion.service';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { Subscription, Observable } from 'rxjs';
+import { Store } from '@ngrx/store'
+import { loadAlumnosNgrxs, loadAlumnosNgrxsSuccess } from '../../../state/actions/alumnos-ngrx.actions';
+import { selectListaAlumnos, selectLoading } from '../../../state/selectors/alumnos-ngrx.selectors';
+import { AppState } from '../../../state/app.state';
+import { DetalleComponent } from '../detalle/detalle.component';
+
 
 @Component({
   selector: 'app-listar',
@@ -18,21 +26,36 @@ export class ListarComponent implements OnInit {
 
   columnas: string[] = [ 'Foto', 'NumeroControl', 'Nombre', 'Curp', 'FechaNacimiento', 'acciones'];
 
-  ALUMNOS_DATA: Alumno[] = [];
+  ALUMNOS_DATA: Observable<Alumno[]> = new Observable();
 
-  dataSource = new MatTableDataSource(this.ALUMNOS_DATA);
+  private userServiceSubscription: Subscription | undefined;
+  isAdmin: boolean | undefined = false;
+
+  loading$: Observable<boolean> = new Observable();
+
+  dataSource = new MatTableDataSource<Alumno>;
   @ViewChild(MatTable) tabla!: MatTable<Alumno>;
 
   constructor(
     private dialog: MatDialog,
     private dialogService: DialogService,
     private alumnoService: AlumnosService,
-    private notificacion: NotificacionService
+    private notificacion: NotificacionService,
+    private auth: AuthService,
+    private store: Store<AppState>
   ) {
     this.listarAlumnos();
+
+    this.userServiceSubscription = this.auth.currentUser.subscribe(
+      currentUser => {
+        this.isAdmin = currentUser.usuario?.Admin
+      }
+    );
   }
 
   ngOnInit(): void {
+    this.loading$ = this.store.select(selectLoading);
+    this.store.dispatch(loadAlumnosNgrxs());
   }
 
   agregar(){
@@ -44,7 +67,8 @@ export class ListarComponent implements OnInit {
     dialogRef.afterClosed().subscribe(resultado => {
       if(resultado){
         this.alumnoService.addAlumno(resultado).subscribe((response) => {
-
+          this.loading$ = this.store.select(selectLoading);
+          this.store.dispatch(loadAlumnosNgrxs());
           this.listarAlumnos();
           this.notificacion.mensaje('Alumno creado con éxito');
           this.tabla.renderRows();
@@ -54,18 +78,33 @@ export class ListarComponent implements OnInit {
   }
 
   listarAlumnos(){
-    this.ALUMNOS_DATA = [];
-      this.alumnoService.getAlumnos().subscribe((alumnos) => {
-        alumnos.forEach(alumno => {
-          this.ALUMNOS_DATA.push(alumno);
-        });
-        this.dataSource = new MatTableDataSource(this.ALUMNOS_DATA);
-     });
+    this.ALUMNOS_DATA = this.store.select(selectListaAlumnos);
+      this.ALUMNOS_DATA.subscribe(data => {
+        this.dataSource = new MatTableDataSource(data);
+    });
   }
 
   editar(elemento: Alumno){
-    console.log(elemento);
     const dialogRef = this.dialog.open(EditarComponent, {
+      width: '700px',
+      data: elemento
+    });
+
+
+    dialogRef.afterClosed().subscribe(resultado => {
+      if(resultado){
+          this.alumnoService.updateAlumno(resultado).subscribe((alumnos) => {
+            this.loading$ = this.store.select(selectLoading);
+          this.store.dispatch(loadAlumnosNgrxs());
+            this.listarAlumnos();
+              this.notificacion.mensaje('Alumno modificado con éxito');
+        });
+      }
+    });
+  }
+
+  verDetalle(elemento: Alumno){
+    const dialogRef = this.dialog.open(DetalleComponent, {
       width: '700px',
       data: elemento
     });
@@ -91,6 +130,8 @@ export class ListarComponent implements OnInit {
       {
       if(data === true){
         this.alumnoService.deleteAlumno(elemento).subscribe((alumnos) =>{
+          this.loading$ = this.store.select(selectLoading);
+          this.store.dispatch(loadAlumnosNgrxs());
           this.listarAlumnos();
           this.notificacion.mensaje('Alumno eliminado con éxito');
         });

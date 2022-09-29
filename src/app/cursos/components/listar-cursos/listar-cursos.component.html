@@ -22,7 +22,9 @@
   </div>
 </div>
 
-<table mat-table mat-table class="full-width-table" [dataSource]="dataSource">
+<mat-spinner  *ngIf="(loading$ | async)"></mat-spinner>
+
+<table mat-table mat-table class="full-width-table" [dataSource]="dataSource" *ngIf="!(loading$ | async)">
   <!-- Columna Número Curso -->
   <ng-container matColumnDef="CursoId">
     <th mat-header-cell *matHeaderCellDef>N° Curso</th>
@@ -50,20 +52,25 @@
   <!-- Columna Estatus -->
   <ng-container matColumnDef="Estatus">
     <th mat-header-cell *matHeaderCellDef>Estatus</th>
-    <td mat-cell *matCellDef="let element">{{ element.estatus }}</td>
+    <td mat-cell *matCellDef="let element">
+      <div [ngSwitch]="element.estatus">
+        <p *ngSwitchCase=false>Inactivo</p>
+        <p *ngSwitchCase=true>Activo</p>
+      </div>
+    </td>
   </ng-container>
 
   <!-- Columna Acciones -->
   <ng-container matColumnDef="acciones">
     <th mat-header-cell *matHeaderCellDef>Acciones</th>
     <td mat-cell *matCellDef="let element">
-      <button mat-icon-button color="primary" matTooltip="Ver detalle" matTooltipPosition="above" (click)="editar(element)">
+      <button mat-icon-button color="primary" matTooltip="Ver detalle" matTooltipPosition="above" (click)="editar(element)" >
         <mat-icon>remove_red_eye</mat-icon>
       </button>
-      <button mat-icon-button color="primary" matTooltip="Editar" matTooltipPosition="above" (click)="editar(element)">
+      <button mat-icon-button color="primary" matTooltip="Editar" matTooltipPosition="above" (click)="editar(element)"  *ngIf="isAdmin">
         <mat-icon>edit</mat-icon>
       </button>
-      <button mat-icon-button color="warn" matTooltip="Eliminar" matTooltipPosition="above" (click)="eliminar(element)">
+      <button mat-icon-button color="warn" matTooltip="Eliminar" matTooltipPosition="above" (click)="eliminar(element)"  *ngIf="isAdmin">
         <mat-icon>delete</mat-icon>
       </button>
     </td>
