@@ -7,6 +7,7 @@ import { MaterialModule } from '../material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NombreCompletoPipe } from '../alumnos/pipes/nombre-completo.pipe';
+import { ImageMissingDirective } from './directives/image-missing.directive';
 
 
 
@@ -14,6 +15,7 @@ import { NombreCompletoPipe } from '../alumnos/pipes/nombre-completo.pipe';
   declarations: [
     ConfirmDialogComponent,
     NombreCompletoPipe,
+    ImageMissingDirective,
   ],
   imports: [
     CommonModule,
@@ -25,7 +27,8 @@ import { NombreCompletoPipe } from '../alumnos/pipes/nombre-completo.pipe';
     MaterialModule,
     HttpClientModule,
     ReactiveFormsModule,
-    NombreCompletoPipe
+    NombreCompletoPipe,
+    ImageMissingDirective,
   ]
 })
 export class SharedModule { }
